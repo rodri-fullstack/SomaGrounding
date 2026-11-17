@@ -12,13 +12,15 @@ export default function LevelSos() {
 
   useEffect(() => {
     let active = true;
+    let exhaleTimer = null;
 
     const runCycle = () => {
       if (!active) return;
       setPhase('INHALA');
       patterns.INHALE();
 
-      setTimeout(() => {
+      clearTimeout(exhaleTimer);
+      exhaleTimer = setTimeout(() => {
         if (!active) return;
         setPhase('EXHALA');
         patterns.EXHALE();
@@ -31,25 +33,27 @@ export default function LevelSos() {
     return () => {
       active = false;
       clearInterval(interval);
+      clearTimeout(exhaleTimer);
       stopHaptics();
       stopAudio();
     };
-  }, []);
+  }, [patterns, stopHaptics, stopAudio]);
 
   return (
     <main className="min-h-screen flex flex-col justify-between p-6 max-w-md mx-auto bg-slate-950">
       <header className="flex items-center justify-between">
         <button
+          type="button"
           onClick={() => navigate('/')}
           aria-label="Volver al semáforo"
-          className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300"
+          className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={20} aria-hidden="true" />
         </button>
         <span className="text-xs font-bold uppercase tracking-widest text-rose-400">
           Nivel 3 · Contención SOS
         </span>
-        <div className="w-9" />
+        <div className="w-9" aria-hidden="true" />
       </header>
 
       {/* Instrucción Somática Pebble TPE / Choque Térmico */}
@@ -78,20 +82,22 @@ export default function LevelSos() {
         {/* Controles Sensoriales */}
         <div className="flex justify-center gap-3">
           <button
+            type="button"
+            aria-pressed={isPlaying}
             onClick={toggle432Hz}
-            className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition ${
+            className={`flex items-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 ${
               isPlaying
                 ? 'bg-teal-500/20 border-teal-400 text-teal-200'
                 : 'bg-slate-900 border-slate-800 text-slate-300'
             }`}
           >
-            {isPlaying ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            {isPlaying ? <Volume2 size={18} aria-hidden="true" /> : <VolumeX size={18} aria-hidden="true" />}
             {isPlaying ? 'Tono 432 Hz Activo' : 'Activar Tono 432 Hz'}
           </button>
 
           {isSupported && (
             <div className="flex items-center gap-1.5 px-3 py-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-400">
-              <Smartphone size={16} className="text-rose-400" />
+              <Smartphone size={16} className="text-rose-400" aria-hidden="true" />
               Háptica ON
             </div>
           )}
@@ -102,9 +108,9 @@ export default function LevelSos() {
       <footer className="pb-4">
         <a
           href="tel:4141"
-          className="w-full py-4 px-4 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-950/50 transition"
+          className="w-full py-4 px-4 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-950/50 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300"
         >
-          <PhoneCall size={18} />
+          <PhoneCall size={18} aria-hidden="true" />
           Llamar a Línea de Prevención (4141)
         </a>
       </footer>
