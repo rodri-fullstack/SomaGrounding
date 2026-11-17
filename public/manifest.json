@@ -1,0 +1,18 @@
+{
+  "short_name": "Soma Grounding",
+  "name": "Soma Grounding - Autorregulación Somática",
+  "description": "Plataforma phygital de autorregulación somática vía NFC",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "background_color": "#020617",
+  "theme_color": "#0d9488",
+  "display": "standalone",
+  "orientation": "portrait"
+}
